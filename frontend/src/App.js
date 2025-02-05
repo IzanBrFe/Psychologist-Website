@@ -7,7 +7,7 @@ function App() {
   // Función para obtener las citas del backend
   const fetchAppointments = async () => {
     try {
-      const response = await fetch('https://psychologist-website-1.onrender.com'); // Cambia esta URL con la de tu backend
+      const response = await fetch('https://psychologist-website-1.onrender.com/citas'); // Cambia esta URL con la de tu backend
       if (!response.ok) {
         throw new Error('Error al obtener las citas');
       }
@@ -25,16 +25,16 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Agenda de Citas del Psicólogo</h1>
+      <h1>Psicólogo Jorge</h1>
       
       {error && <p style={{ color: 'red' }}>Error: {error}</p>} {/* Mostrar mensaje de error */}
       
-      <h2>Horarios Disponibles</h2>
+      <h2>Citas agendas</h2>
       <ul>
         {appointments.length > 0 ? (
           appointments.map((appointment, index) => (
             <li key={index}>
-              {appointment.date} - {appointment.time} - {appointment.status}
+              {appointment.id} - {appointment.name} - {appointment.fecha}
             </li>
           ))
         ) : (
