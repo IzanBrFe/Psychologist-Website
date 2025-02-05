@@ -8,7 +8,7 @@ const Appointments = () => {
   // Función para obtener las citas del backend
   const fetchAppointments = async () => {
     try {
-      const response = await fetch('https://psychologist-website-1.onrender.com/api/citasBackend');
+      const response = await fetch('https://psychologist-website.onrender.com/api/citasBackend');
       if (!response.ok) {
         throw new Error('Error al obtener las citas');
       }

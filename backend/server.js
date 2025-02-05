@@ -31,18 +31,6 @@ app.get("/api/appointments", (req, res) => {
     res.json({ message: "API funcionando correctamente" });
 });
 
-// ✅ Otra ruta de citas
-app.get("/api/citas", async (req, res) => {
-    try {
-        console.log("Entro en citas");
-        const result = await pool.query("SELECT * FROM citas");
-        res.json(result.rows);
-    } catch (err) {
-        console.error("Error al obtener las citas:", err);
-        res.status(500).json({ error: "Error al obtener las citas" });
-    }
-});
-
 // ✅ Servir los archivos estáticos correctamente
 const frontendPath = path.join(__dirname, "../frontend/build"); // Ajustar si es necesario
 app.use(express.static(frontendPath));
