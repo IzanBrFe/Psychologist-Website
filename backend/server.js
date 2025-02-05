@@ -47,14 +47,16 @@ app.get("/api/citas", async (req, res) => {
 const frontendPath = path.join(__dirname, "../frontend/build"); // Ajustar si es necesario
 app.use(express.static(frontendPath));
 
-// ✅ **Evitar que rutas API devuelvan el index.html**
-app.get("*", (req, res) => {
-    if (!req.path.startsWith("/api/")) {
-        res.sendFile(path.join(frontendPath, "index.html"));
-    } else {
-        res.status(404).json({ error: "Ruta no encontrada" });
-    }
+// ✅ Asegurar que las rutas de API existen antes de servir index.html
+app.use("/api", (req, res, next) => {
+    res.status(404).json({ error: "Ruta API no encontrada" });
 });
+
+// ✅ Después de las rutas de API, servir el frontend correctamente
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
+
 
 // Iniciar servidor
 const PORT = process.env.PORT || 3001;
