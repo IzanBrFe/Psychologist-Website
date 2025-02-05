@@ -1,26 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [message, setMessage] = useState('');
+  const [appointments, setAppointments] = useState([]); // Estado para almacenar citas
+  const [error, setError] = useState(null); // Estado para manejar errores
 
-  // Hacer la solicitud al backend
+  // Función para obtener las citas del backend
+  const fetchAppointments = async () => {
+    try {
+      const response = await fetch('https://psychologist-website-1.onrender.com'); // Cambia esta URL con la de tu backend
+      if (!response.ok) {
+        throw new Error('Error al obtener las citas');
+      }
+      const data = await response.json();
+      setAppointments(data);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  // Llamar a fetchAppointments al cargar el componente
   useEffect(() => {
-    axios.get('https://psychologist-website-1.onrender.com')
-      .then(response => {
-        setMessage(`La fecha/hora actual es: ${response.data.time}`);
-      })
-      .catch(error => {
-        console.error('Hubo un error al obtener los datos:', error);
-      });
-  }, []);
+    fetchAppointments();
+  }, []); // El array vacío asegura que la solicitud se haga solo una vez al montar el componente
 
   return (
     <div className="App">
-      <h1>Bienvenido a la página del psicólogo</h1>
-      <p>{message || 'Cargando...'}</p>
+      <h1>Agenda de Citas del Psicólogo</h1>
+      
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>} {/* Mostrar mensaje de error */}
+      
+      <h2>Horarios Disponibles</h2>
+      <ul>
+        {appointments.length > 0 ? (
+          appointments.map((appointment, index) => (
+            <li key={index}>
+              {appointment.date} - {appointment.time} - {appointment.status}
+            </li>
+          ))
+        ) : (
+          <p>No hay citas disponibles.</p>
+        )}
+      </ul>
     </div>
   );
 }
 
 export default App;
+
