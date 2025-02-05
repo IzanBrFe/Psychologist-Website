@@ -19,6 +19,18 @@ const pool = new Pool({
 
 app.get("/citas", async (req, res) => {
     try {
+        console.log('Entro en citas');
+        const result = await pool.query("SELECT * FROM citas");
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error al obtener las citas:', err);
+        res.status(500).json({ error: 'Error al obtener las citas' });
+    }
+});
+
+app.get("/api/citasBackend", async (req, res) => {
+    try {
+        console.log('Entro en citasBack');
         const result = await pool.query("SELECT * FROM citas");
         res.json(result.rows);
     } catch (err) {
