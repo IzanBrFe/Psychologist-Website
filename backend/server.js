@@ -7,8 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Servir los archivos estáticos de React desde la carpeta 'build'
-app.use(express.static(path.join(__dirname, 'build')));
+// Servir los archivos estáticos del frontend (la carpeta build)
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
 // API para obtener citas desde la base de datos
 const { Pool } = require("pg");
